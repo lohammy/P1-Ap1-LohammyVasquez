@@ -1,10 +1,23 @@
+using Microsoft.EntityFrameworkCore;
 using P1_Ap1_LohammyVasquez.Components;
+using P1_Ap1_LohammyVasquez.DAL;
+using P1_Ap1_LohammyVasquez.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+
+var ConStr = builder.Configuration.GetConnectionString("sqlConnection");
+
+builder.Services.AddDbContextFactory<Contexto>(o => o.UseSqlite(ConStr));
+builder.Services.AddScoped<RegistroServices>();
+
+
+
+
 
 var app = builder.Build();
 

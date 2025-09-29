@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace P1_Ap1_LohammyVasquez.Models;
 
 
-public class Registro
+public class EntradaHuacales
 {
     [Key]
     public int id { get; set; }

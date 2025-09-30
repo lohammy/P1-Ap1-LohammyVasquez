@@ -5,7 +5,7 @@ namespace P1_Ap1_LohammyVasquez.DAL;
 
 public class Contexto : DbContext
 {
-    public DbSet<Registro> Registro { get; set; }
+    public DbSet<EntradaHuacales> EntradaHuacales { get; set; }
     public Contexto(DbContextOptions<Contexto> options) : base(options) { }
 
 }

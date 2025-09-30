@@ -1,0 +1,108 @@
+﻿@page "/EntradaHuacales/Edit/{IdEntrada:int}"
+@using P1_Ap1_LohammyVasquez.Models
+@using P1_Ap1_LohammyVasquez.Services
+@inject NavigationManager navigationManager
+@inject EntradaHuacalesServices entradaHuacalesServices
+@rendermode InteractiveServer
+
+@*HTML*@
+<PageTitle>Modificar</PageTitle>
+<EditForm Model="EntradaHuacale" OnValidSubmit="Modificar">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+	<div class="container">
+		<div class="card shadow-lg">
+			<div class="card-header text-center">
+				<h5 class="card-title">Modificar Huacal</h5>
+			</div>
+
+			<div class="card-body">
+				@*Fecha*@
+				<div class="mb-3">
+					<label class="form-label"><strong>Fecha</strong></label>
+					<InputDate class="form-control" @bind-Value="EntradaHuacale.Fecha"></InputDate>
+					<ValidationMessage For="(() => EntradaHuacale.Fecha)" />
+				</div>
+				@*NombreCliente*@
+				<div class="mb-3">
+					<label class="form-label"><strong>NombreCliente</strong></label>
+					<InputText class="form-control" @bind-Value="EntradaHuacale.NombreCliente"></InputText>
+					<ValidationMessage For="(() => EntradaHuacale.NombreCliente)" />
+				</div>
+
+				@*Precio*@
+				<div class="mb-3">
+					<label class="form-label"><strong>Precio</strong></label>
+					<InputNumber class="form-control" @bind-Value="EntradaHuacale.Precio"></InputNumber>
+					<ValidationMessage For="(() => EntradaHuacale.Precio)" />
+				</div>
+
+				@*Cantidad*@
+				<div class="mb-3">
+					<label class="form-label"><strong>Cantidad</strong></label>
+					<InputNumber class="form-control" @bind-Value="EntradaHuacale.Cantidad"></InputNumber>
+					<ValidationMessage For="(() => EntradaHuacale.Cantidad)" />
+				</div>
+			</div>
+
+		</div>
+
+		@*footer*@
+		<div class="card-footer text-center mt-2">
+			<a href="/EntradaHuacales/Index" class="btn btn-secondary">
+				<span class="bi bi-arrow-left"></span> Volver
+			</a>
+			<button type="submit" class="btn btn-primary bi bi-floppy" @onclick="Modificar"> Modificar</button>
+			<button type="button" class="btn btn-danger bi bi-trash" @onclick="Eliminar"> Eliminar</button>
+		</div>
+
+	</div>
+	@Mensaje
+</EditForm>
+
+@code {
+	[Parameter]
+
+	public int IdEntrada { get; set; }
+
+	public EntradaHuacales EntradaHuacale { get; set; } = new EntradaHuacales();
+	public string Mensaje { get; set; } = string.Empty;
+	protected override async Task OnInitializedAsync()
+	{
+		EntradaHuacale = await entradaHuacalesServices.Buscar(IdEntrada);
+	}
+	private async Task Modificar()
+	{
+		var crear = await entradaHuacalesServices.Guardar(EntradaHuacale);
+		if (crear)
+		{
+			Mensaje = "Modificado exitosamente.";
+			navigationManager.NavigateTo("/EntradaHuacales/Index");
+		}
+		else
+		{
+			Mensaje = "Error al modificar.";
+		}
+	}
+	private async Task Eliminar()
+	{
+		var eliminar = await entradaHuacalesServices.Eliminar(EntradaHuacale.IdEntrada);
+		if (eliminar)
+		{
+			Mensaje = "Eliminado exitosamente.";
+			navigationManager.NavigateTo("/EntradaHuacales/Index");
+		}
+		else
+		{
+			Mensaje = "Error al eliminar.";
+		}
+	}
+
+	public void Volver()
+	{
+		navigationManager.NavigateTo("/EntradaHuacales/Index");
+	}
+
+}
+

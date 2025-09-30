@@ -1,0 +1,83 @@
+﻿@page "/entradaHuacales/Create"
+@inject NavigationManager navigationManager
+@inject EntradaHuacalesServices entradaHuacalesServices
+@rendermode InteractiveServer
+
+@*HTML*@
+<PageTitle>Create</PageTitle>
+<EditForm Model=" EntradaHuacale" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator />
+
+
+	<div class="container">
+		<div class="card shadow-lg">
+			<div class="card-header text-center">
+				<h5 class="card-title">Crear Entrada Huacales</h5>
+			</div>
+
+			<div class="card-body ">
+				@*Fecha*@
+				<div class="mb-3">
+					<label class="form-label"><strong>Fecha</strong></label>
+					<InputDate class="form-control" @bind-Value="EntradaHuacale.Fecha"></InputDate>
+					<ValidationMessage For="(() => EntradaHuacale.Fecha)" />
+				</div>
+				@*NombreCliente*@
+				<div class="mb-3">
+					<label class="form-label"><strong>NombreCliente</strong></label>
+					<InputText class="form-control" @bind-Value="EntradaHuacale.NombreCliente"></InputText>
+					<ValidationMessage For="(() => EntradaHuacale.NombreCliente)" />
+				</div>
+
+				@*Precio*@
+				<div class="mb-3">
+					<label class="form-label"><strong>Precio</strong></label>
+					<InputNumber class="form-control" @bind-Value="EntradaHuacale.Precio"></InputNumber>
+					<ValidationMessage For="(() => EntradaHuacale.Precio)" />
+				</div>
+				
+				@*Cantidad*@
+				<div class="mb-3">
+					<label class="form-label"><strong>Cantidad</strong></label>
+					<InputNumber class="form-control" @bind-Value="EntradaHuacale.Cantidad"></InputNumber>
+					<ValidationMessage For="(() => EntradaHuacale.Cantidad)" />
+				</div>
+			</div>
+
+
+			@*footer*@
+			<div class="card-footer text-center mt-2">
+				<a href="/EntradaHuacales/Index" class="btn btn-secondary"> <span class="bi bi-arrow-left"></span> Volver</a>
+				<button type="submit" class="btn btn-primary bi bi-floppy"> Guardar</button>
+			</div>
+
+		</div>
+	</div>
+</EditForm>
+
+@code {
+	public EntradaHuacales EntradaHuacale { get; set; } = new();
+	public string Mensaje { get; set; } = string.Empty;
+	public List<EntradaHuacales> ListaEntradaHuacale { get; set; } = new List<EntradaHuacales>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		ListaEntradaHuacale = await entradaHuacalesServices.Listar(a => a.IdEntrada > 0);
+	}
+
+	public async Task Guardar()
+	{
+
+		var crear = await entradaHuacalesServices.Guardar(EntradaHuacale);
+		if (crear)
+		{
+			Mensaje = "Creado exitosamente.";
+			navigationManager.NavigateTo("/EntradaHuacales/Index");
+		}
+		else
+		{
+			Mensaje = "no se pudo crear ";
+		}
+	}
+
+	}

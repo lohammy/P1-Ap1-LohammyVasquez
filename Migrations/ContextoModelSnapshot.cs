@@ -29,6 +29,9 @@ namespace P1_Ap1_LohammyVasquez.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
+                    b.Property<decimal>("Importe")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("NombreCliente")
                         .IsRequired()
                         .HasColumnType("TEXT");

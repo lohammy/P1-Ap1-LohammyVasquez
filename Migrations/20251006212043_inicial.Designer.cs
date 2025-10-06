@@ -11,7 +11,7 @@ using P1_Ap1_LohammyVasquez.DAL;
 namespace P1_Ap1_LohammyVasquez.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20250930001430_inicial")]
+    [Migration("20251006212043_inicial")]
     partial class inicial
     {
         /// <inheritdoc />
@@ -30,6 +30,9 @@ namespace P1_Ap1_LohammyVasquez.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Importe")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NombreCliente")

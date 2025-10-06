@@ -1,123 +1,139 @@
 ﻿@page "/EntradaHuacales/Index"
+@using System.Globalization
 @inject NavigationManager navigationManager
 @inject EntradaHuacalesServices entradaHuacalesService
 @rendermode InteractiveServer
 
 <PageTitle>Index de Entrada de Huacales</PageTitle>
 <div class="container">
-    <div class="card shadow-lg">
-        <div class="card-header  d-flex justify-content-between align-items-center">
-            <div class="card-title"></div>
-            <h5 class="card-title">index</h5>
-            <a href="/EntradaHuacales/Create" class="btn btn-primary"><span class="bi bi-plus-square"></span>Crear</a>
-        </div>
-        <div class="card-body">
+	<div class="card shadow-lg">
+		<div class="card-header  d-flex justify-content-between align-items-center">
+			<div class="card-title"></div>
+			<h5 class="card-title">index</h5>
+			<a href="/EntradaHuacales/Create" class="btn btn-primary"><span class="bi bi-plus-square"></span>Crear</a>
+		</div>
+		<div class="card-body">
 
-            <div class="row">
+			<div class="row">
 
-                <div class="col-3">
+				<div class="col-3">
 
-                    <label class="col-form-label"><strong>Filtrar por</strong></label>
-                </div>
+					<label class="col-form-label"><strong>Filtrar por</strong></label>
+				</div>
 
-                <div class="col-4 offset-5">
-                    <label class="col-form-label"><strong>B&uacute;squeda</strong></label>
-                </div>
+				<div class="col-4 offset-5">
+					<label class="col-form-label"><strong>B&uacute;squeda</strong></label>
+				</div>
 
-                <div class="row align-items-center">
-                    <div class="col-3">
-                        <InputSelect class="form-select" @bind-Value="Filtro">
-                            <option value="" selected disabled>Selecciona una opci&oacute;n</option>
+				<div class="row align-items-center">
+					<div class="col-3">
+						<InputSelect class="form-select" @bind-Value="Filtro">
+							<option value="" selected disabled>Selecciona una opci&oacute;n</option>
 
-                            <option value="EntradaID">Entrada ID </option>
-                            <option value="NombreCliente">Nombre del cliente</option>
+							<option value="EntradaID">Entrada ID </option>
+							<option value="NombreCliente">Nombre del cliente</option>
 
-                        </InputSelect>
-                    </div>
+						</InputSelect>
+					</div>
 
-                    <div class="col-4 offset-5">
-                        <div class="input-group">
-                            <input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
-                            <button type="button" class="btn btn-outline-primary bi bi-search" @onclick=Buscar></button>
-                        </div>
-                    </div>
-                </div>
+					<div class="col-4 offset-5">
+						<div class="input-group">
+							<input class="form-control" @bind="ValorFiltro" placeholder="Buscar" />
+							<button type="button" class="btn btn-outline-primary bi bi-search" @onclick=Buscar></button>
+						</div>
+					</div>
+				</div>
 
-                <table class="table table-hover">
-                    <thead class="table table-striped text-black">
-                        <tr>
-                            <th>IdEntrada</th>
-                            <th>Fecha</th>
-                            <th>NombreCliente</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>Opciones</th>
+				<table class="table table-hover">
+					<thead class="table table-striped text-black">
+						<tr>
+							<th>IdEntrada</th>
+							<th>Fecha</th>
+							<th>NombreCliente</th>
+							<th>Cantidad</th>
+							<th>Precio</th>
+							<th>Importe</th>
+							<th>Opciones</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var entradaHuacales in ListaEntradaHuacales)
-                        {
-                            <tr>
-                                <td>@entradaHuacales.IdEntrada</td>
-                                <td>@entradaHuacales.Fecha</td>
-                                <td>@entradaHuacales.NombreCliente</td>
-                                <td>@entradaHuacales.Cantidad</td>
-                                <td>@entradaHuacales.Precio</td>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var entradaHuacales in ListaEntradaHuacales)
+						{
+							<tr>
+								<td>@entradaHuacales.IdEntrada</td>
+								<td>@entradaHuacales.Fecha</td>
+								<td>@entradaHuacales.NombreCliente</td>
+								<td>@entradaHuacales.Cantidad</td>
+								<td>@entradaHuacales.Precio</td>
+								<td>@entradaHuacales.Importe</td>
 
-                                <td class="text-center">
-                                    <a href="/EntradaHuacales/Edit/@entradaHuacales.IdEntrada" class="btn btn-outline-primary bi bi-pencil-square"></a>
-                                </td>
+								<td class="text-center">
+									<a href="/EntradaHuacales/Edit/@entradaHuacales.IdEntrada" class="btn btn-outline-primary bi bi-pencil-square"></a>
+								</td>
 
-                            </tr>
-                        }
+							</tr>
+						}
 
-                    </tbody>
-                </table>
+					</tbody>
+				</table>
 
-            </div>
-            <div class="card-footer space-between">
-                <label>Total de Huacales: @ListaEntradaHuacales.Count()</label>
-            </div>
-        </div>
-    </div>
+			</div>
+			<div class="card-footer space-between">
+				<label>Total de Huacales: @ListaEntradaHuacales.Count()</label>
+				<div class="col-5">
+					<label>Total: @ListaEntradaHuacales.Sum(s => s.Cantidad)</label>
+					<div class="col-5">
+						<label>Total de importes: @ListaEntradaHuacales.Sum(i => i.Importe)</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 @code {
 
-    public List<EntradaHuacales> ListaEntradaHuacales { get; set; } = new List<EntradaHuacales>();
+	public List<EntradaHuacales> ListaEntradaHuacales { get; set; } = new List<EntradaHuacales>();
 
-    public string Filtro { get; set; } = string.Empty;
-    public string ValorFiltro { get; set; } = string.Empty;
+	public string Filtro { get; set; } = string.Empty;
+	public string ValorFiltro { get; set; } = string.Empty;
 
-    protected override async Task OnInitializedAsync()
-    {
-        ListaEntradaHuacales = await entradaHuacalesService.Listar(p => p.IdEntrada > 0);
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		ListaEntradaHuacales = await entradaHuacalesService.Listar(p => p.IdEntrada > 0);
 
-    private async Task Buscar()
-    {
-        if (ValorFiltro.Trim() != "")
-        {
-            if (Filtro == "IdEntrada" && int.TryParse(ValorFiltro, out int id))
-            {
-                ListaEntradaHuacales = await entradaHuacalesService.Listar(a => a.IdEntrada == id);
-            }
-            else if (Filtro == "NombreCliente")
-            {
-                ListaEntradaHuacales = await entradaHuacalesService.Listar(p => p.NombreCliente.ToLower().Contains(ValorFiltro.ToLower()));
-            }
-        }
-        else
-        {
-            ListaEntradaHuacales = await entradaHuacalesService.Listar(a => a.IdEntrada > 0);
-        }
-    }
-    private async Task Restablecer()
-    {
-        ListaEntradaHuacales = await entradaHuacalesService.Listar(e => e.IdEntrada > 0);
-        Filtro = string.Empty;
-        ValorFiltro = string.Empty;
-    }
+		foreach (var multi in ListaEntradaHuacales)
+		{
+			multi.Importe = multi.Cantidad * multi.Precio;
+		}
+
+	}
+
+	private async Task Buscar()
+	{
+		if (ValorFiltro.Trim() != "")
+		{
+			if (Filtro == "IdEntrada" && int.TryParse(ValorFiltro, out int id))
+			{
+				ListaEntradaHuacales = await entradaHuacalesService.Listar(a => a.IdEntrada == id);
+			}
+			else if (Filtro == "NombreCliente")
+			{
+				ListaEntradaHuacales = await entradaHuacalesService.Listar(p => p.NombreCliente.ToLower().Contains(ValorFiltro.ToLower()));
+			}
+		}
+		else
+		{
+			ListaEntradaHuacales = await entradaHuacalesService.Listar(a => a.IdEntrada > 0);
+		}
+	}
+	private async Task Restablecer()
+	{
+		ListaEntradaHuacales = await entradaHuacalesService.Listar(e => e.IdEntrada > 0);
+		Filtro = string.Empty;
+		ValorFiltro = string.Empty;
+	}
+
 
 }

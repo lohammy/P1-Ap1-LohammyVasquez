@@ -20,7 +20,9 @@ public class EntradaHuacales
 
     [Required(ErrorMessage = "Este campo es obligatorio")]
     public DateTime Fecha { get; set; } = DateTime.Now;
-    
+
+    public decimal Importe { get; set; } 
+
     [Required(ErrorMessage = "Este campo es obligatorio")]
     [Range(1, double.MaxValue, ErrorMessage = "Debe introducir una cantidad valida")]
     public int Cantidad { get; set; }

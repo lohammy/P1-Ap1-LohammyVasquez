@@ -19,6 +19,7 @@ namespace P1_Ap1_LohammyVasquez.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     NombreCliente = table.Column<string>(type: "TEXT", nullable: false),
                     Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Importe = table.Column<decimal>(type: "TEXT", nullable: false),
                     Cantidad = table.Column<int>(type: "INTEGER", nullable: false),
                     Precio = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
